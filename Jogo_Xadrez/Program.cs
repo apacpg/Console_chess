@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Jogo_Xadrez
+﻿namespace Jogo_Xadrez
 {
     class Program
     {

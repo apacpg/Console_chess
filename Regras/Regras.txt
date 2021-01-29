@@ -1,0 +1,32 @@
+O jogo de xadrez é um jogo padrão de xadrez representado no Console
+
+Cada uma das peças é representada por uma letra no Console:
+
+P - peão
+T - torre
+C - cavalo
+B - bispo
+D - dama
+R - rei
+
+As cores das peças são dadas pela cor dos characteres:
+
+Pretas - Amarelo
+Brancas - Brancas
+
+Os espaços em branco são representados pelo character '-'
+Na lateral e na base do tabuleiro, são apresentadas as coordenadas do mesmo:
+
+1-8: na lateral
+a-h: na base
+
+	8| T C B D R B C T
+	7| P P P P P P P P
+	6| - - - - - - - -
+	5| - - - - - - - -
+	4| - - - - - - - -
+	3| - - - - - - - -
+	2| P P P P P P P P
+	1| T C B R D B C T
+	  ----------------
+	   a b c d e f g h
