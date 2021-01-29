@@ -13,5 +13,10 @@
             this.columns = columns;
             this.pieces = new Piece[this.lines, this.columns];
         }
+
+        public Piece GetPiece(int line, int column)
+        {
+            return pieces[line, column];
+        }
     }
 }

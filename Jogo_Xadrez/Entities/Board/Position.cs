@@ -2,12 +2,12 @@
 
 namespace Jogo_Xadrez.Entities.Board
 {
-    public class Posicao
+    public class Position
     {
         public int Line { get; set; }
         public int Column { get; set; }
 
-        public Posicao(int line, int column)
+        public Position(int line, int column)
         {
             this.Line = line;
             this.Column = column;
@@ -20,14 +20,14 @@ namespace Jogo_Xadrez.Entities.Board
 
         public override bool Equals(object obj)
         {
-            Posicao pos = obj as Posicao;
+            Position pos = obj as Position;
 
             if (pos != null)
             {
                 return ((this.Line == pos.Line) && (this.Column == pos.Column));
             }
             else
-                throw new Exception(string.Format("The obj is not of the {0} type", typeof(Posicao)));
+                throw new Exception(string.Format("The obj is not of the {0} type", typeof(Position)));
         }
     }
 }
