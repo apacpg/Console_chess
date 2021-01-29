@@ -5,7 +5,7 @@ namespace Jogo_Xadrez.UI
 {
     public class Screen
     {
-        public static void DisplayBoard(Board board)
+        public static void DisplayBoard(GameBoard board)
         {
             for(int i = 0; i < board.lines; i++)
             {
