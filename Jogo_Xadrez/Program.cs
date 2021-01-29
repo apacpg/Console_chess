@@ -1,6 +1,7 @@
 ﻿using Jogo_Xadrez.Entities.Board;
 using Jogo_Xadrez.Entities.Chess;
 using Jogo_Xadrez.UI;
+using System;
 
 namespace Jogo_Xadrez
 {
@@ -8,6 +9,7 @@ namespace Jogo_Xadrez
     {
         static void Main(string[] args)
         {
+            /*
             GameBoard board = new GameBoard(8, 8);
 
             board.PlacePiece(new Tower(Color.Black, board), new Position(0, 0));
@@ -35,7 +37,7 @@ namespace Jogo_Xadrez
                 board.PlacePiece(new Pawn(Color.Black, board), new Position(board.lines - 2, j));
 
             Screen.DisplayBoard(board);
-
+            */
         }
     }
 }

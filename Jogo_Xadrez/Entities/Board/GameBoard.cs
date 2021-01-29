@@ -47,6 +47,9 @@
 
         public void PlacePiece(Piece piece, Position pos)
         {
+            if (ExistPiece(pos))
+                throw new BoardException("There is already a piece in this position!");
+
             pieces[pos.Line, pos.Column] = piece;
             piece.position = pos;
         }
