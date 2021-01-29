@@ -53,5 +53,18 @@
             pieces[pos.Line, pos.Column] = piece;
             piece.position = pos;
         }
+
+        public Piece RemovePiece(Position pos)
+        {
+            if (GetPiece(pos) == null)
+                return null;
+
+            Piece piece = GetPiece(pos);
+            
+            piece.position = null;
+            pieces[pos.Line, pos.Column] = null;
+
+            return piece;
+        }
     }
 }

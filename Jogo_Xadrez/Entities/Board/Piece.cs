@@ -19,5 +19,10 @@
         {
             return "p";
         }
+
+        public void IncreaseMoveNumber()
+        {
+            this.movNumber++;
+        }
     }
 }
