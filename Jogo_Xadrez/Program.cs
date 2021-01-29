@@ -6,7 +6,7 @@ namespace Jogo_Xadrez
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            
         }
     }
 }
