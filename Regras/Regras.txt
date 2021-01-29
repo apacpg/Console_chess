@@ -28,5 +28,5 @@ a-h: na base
 	3| - - - - - - - -
 	2| P P P P P P P P
 	1| T C B R D B C T
-	  ----------------
+	  ________________
 	   a b c d e f g h

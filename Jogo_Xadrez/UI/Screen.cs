@@ -9,22 +9,52 @@ namespace Jogo_Xadrez.UI
         {
             for(int i = 0; i < board.lines; i++)
             {
+                Console.Write(board.lines - i + "| ");
                 for(int j = 0; j < board.columns; j++)
                 {
-                    string character = GetPieceCharacter(board.GetPiece(i,j));
-                    Console.Write("{0} ", character);
+                    PrintPieceCharacter(board.GetPiece(i,j));
+                    Console.Write(" ");
                 }
                 Console.Write("\n");
             }
+
+            for(int k = 0; k < 2; k++)
+            {
+                Console.Write("   ");
+
+                for(int l = 0; l < board.columns; l++)
+                {
+                    if (k == 0)
+                        Console.Write("__");
+                    else
+                        Console.Write(string.Format("{0} ",(char)('a' + l)));
+                }
+                Console.WriteLine();
+            }
+
+            Console.WriteLine();
+            ConsoleColor aux = Console.ForegroundColor;
+            Console.Write(string.Format("    White | "));
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("Black");
+            Console.ForegroundColor = aux;
+
+            Console.WriteLine();
         }
 
-        private static string GetPieceCharacter(Piece piece)
+        private static void PrintPieceCharacter(Piece piece)
         {
             if (piece == null)
-                return "-";
+                Console.Write("-");
             else
             {
-                return piece.ToString();
+                ConsoleColor aux = Console.ForegroundColor;
+                
+                if(piece.color == Color.Black)
+                    Console.ForegroundColor = ConsoleColor.Green;
+                
+                Console.Write(piece);
+                Console.ForegroundColor = aux;
             }
         }
     }
