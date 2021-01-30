@@ -1,22 +1,20 @@
 ﻿using Jogo_Xadrez.Entities.Board;
-using Jogo_Xadrez.UI;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Jogo_Xadrez.Entities.Chess
 {
     public class ChessMatch
     {
         public GameBoard board { get; private set; }
-        private int turn;
-        private Color currentPlayer;
+        public int turn { get; private set; }
+        public Color currentPlayer { get; private set; }
+        public bool Finished { get; private set; }
 
         public ChessMatch()
         {
             this.board = new GameBoard(8, 8);
             SetUpBoard();
             this.turn = 1;
+            this.Finished = false;
             this.currentPlayer = Color.White;
         }
 
@@ -31,7 +29,11 @@ namespace Jogo_Xadrez.Entities.Chess
 
 
                 turn++;
-                currentPlayer = Color.Black;
+
+                if (currentPlayer == Color.White)
+                    currentPlayer = Color.Black;
+                else
+                    currentPlayer = Color.White;
             }
         }
 
