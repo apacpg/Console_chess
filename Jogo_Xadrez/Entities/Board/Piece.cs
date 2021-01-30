@@ -1,6 +1,6 @@
 ﻿namespace Jogo_Xadrez.Entities.Board
 {
-    public class Piece
+    public abstract class Piece
     {
         public Position position { get; set; }
         public Color color { get; protected set; }
@@ -24,5 +24,7 @@
         {
             this.movNumber++;
         }
+
+        public abstract bool[,] PossibleMovements();
     }
 }

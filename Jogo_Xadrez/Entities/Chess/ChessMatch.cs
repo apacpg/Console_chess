@@ -22,19 +22,35 @@ namespace Jogo_Xadrez.Entities.Chess
         {
             if(board.ExistPiece(origin) && board.GetPiece(origin).color == currentPlayer)
             {
-                Piece piece = board.RemovePiece(origin);
-                Piece capturedPiece = board.RemovePiece(destination);
-                board.PlacePiece(piece, destination);
-                piece.IncreaseMoveNumber();
-
-
-                turn++;
-
-                if (currentPlayer == Color.White)
-                    currentPlayer = Color.Black;
-                else
-                    currentPlayer = Color.White;
+                Piece piece = board.GetPiece(origin);
+                if (CanMove(piece, destination))
+                {
+                    piece = board.RemovePiece(origin);
+                    Piece capturedPiece = board.RemovePiece(destination);
+                    board.PlacePiece(piece, destination);
+                    piece.IncreaseMoveNumber();
+                    NextTurn();
+                }
             }
+        }
+
+        private bool CanMove(Piece piece , Position destination)
+        {
+            if (piece.PossibleMovements()[destination.Line, destination.Column])
+                return true;
+
+            return false;
+        }
+
+        private void NextTurn()
+        {
+            turn++;
+
+
+            if (currentPlayer == Color.White)
+                currentPlayer = Color.Black;
+            else
+                currentPlayer = Color.White;
         }
 
         private void SetUpBoard()

@@ -21,7 +21,15 @@ namespace Jogo_Xadrez
 
                     Console.Write("Which piece to move: ");
                     ChessPosition origin = Screen.ReadChessPosition();
+
+                    bool[,] possiblePositions = chessMatch.board.GetPiece(origin.ToPosition().Line, origin.ToPosition().Column).PossibleMovements();
                     
+                    Console.Clear();
+                    Screen.DisplayChessMatchInfo(chessMatch);
+                    Screen.DisplayBoard(chessMatch.board, possiblePositions);
+
+                    Console.WriteLine();
+
                     Console.Write("To which position: ");
                     ChessPosition destination = Screen.ReadChessPosition();
 
@@ -34,7 +42,6 @@ namespace Jogo_Xadrez
             {
 
             }
-
         }
     }
 }

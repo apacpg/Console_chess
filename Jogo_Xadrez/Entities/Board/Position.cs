@@ -29,5 +29,11 @@ namespace Jogo_Xadrez.Entities.Board
             else
                 throw new Exception(string.Format("The obj is not of the {0} type", typeof(Position)));
         }
+
+        public void SetValues(int line, int column)
+        {
+            this.Line = line;
+            this.Column = column;
+        }
     }
 }
