@@ -11,6 +11,7 @@ namespace Jogo_Xadrez.Entities.Chess
         public bool Finished { get; private set; }
         private HashSet<Piece> pieces;
         private HashSet<Piece> captured;
+        public bool check { get; private set; }
 
         public ChessMatch()
         {
@@ -20,33 +21,64 @@ namespace Jogo_Xadrez.Entities.Chess
             this.turn = 1;
             this.Finished = false;
             this.currentPlayer = Color.White;
+            this.check = false;
             SetUpBoard();
         }
 
-        public void ExcecuteMovement(Position origin, Position destination)
+        public Piece ExcecuteMovement(Position origin, Position destination)
         {
-            if(board.ExistPiece(origin) && board.GetPiece(origin).color == currentPlayer)
+
+            Piece piece = board.GetPiece(origin);
+            Piece capturedPiece = null;
+            if (CanMove(piece, destination))
             {
-                Piece piece = board.GetPiece(origin);
-                if (CanMove(piece, destination))
-                {
-                    piece = board.RemovePiece(origin);
-                    Piece capturedPiece = board.RemovePiece(destination);
-                    if (capturedPiece != null)
-                        captured.Add(capturedPiece);
-                    board.PlacePiece(piece, destination);
-                    piece.IncreaseMoveNumber();
-                }
+                piece = board.RemovePiece(origin);
+                capturedPiece = board.RemovePiece(destination);
+                if (capturedPiece != null)
+                    captured.Add(capturedPiece);
+                board.PlacePiece(piece, destination);
+                piece.IncreaseMoveNumber();
+            }
+
+            return capturedPiece;
+        }
+
+        public void UndoMovement(Position origin, Position destination, Piece capturedPiece)
+        {
+            Piece piece = board.RemovePiece(destination);
+            board.PlacePiece(piece, origin);
+            piece.DecreaseMoveNumber();
+
+            if (capturedPiece != null)
+            {
+                board.PlacePiece(capturedPiece, destination);
+                captured.Remove(capturedPiece);
             }
         }
 
         public void ExcecutePlay(Position origin, Position destination)
         {
-            ExcecuteMovement(origin, destination);
+            Piece capturePiece = ExcecuteMovement(origin, destination);
+            if (InCheck(currentPlayer))
+            {
+                UndoMovement(origin, destination, capturePiece);
+                throw new BoardException("You cannot place yourself in check!");
+            }
+
+            if (InCheck(adversaryColor(currentPlayer)))
+            {
+                check = true;
+            }
+
+            else
+            {
+                check = false;
+            }
+
             NextTurn();
         }
 
-        private bool CanMove(Piece piece , Position destination)
+        private bool CanMove(Piece piece, Position destination)
         {
             if (piece.PossibleMovements()[destination.Line, destination.Column])
                 return true;
@@ -70,6 +102,46 @@ namespace Jogo_Xadrez.Entities.Chess
                 throw new BoardException("Invalid position for the piece");
         }
 
+        private Color adversaryColor(Color color)
+        {
+            if (color == Color.White)
+                return Color.Black;
+
+            return Color.White;
+        }
+
+        private Piece GetKing(Color color)
+        {
+            foreach (Piece piece in pieces)
+            {
+                if (piece is King && piece.color == color)
+                {
+                    return piece;
+                }
+            }
+
+            return null;
+        }
+
+        public bool InCheck(Color color)
+        {
+            Piece king = GetKing(color);
+            if (king == null)
+                throw new BoardException(string.Format("There is no king of the {0} color", king.color));
+
+            foreach (Piece x in PiecesInGame(adversaryColor(color)))
+            {
+                bool[,] movements = x.PossibleMovements();
+                if (movements[king.position.Line, king.position.Column] == true)
+                {
+                    check = true;
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         private void NextTurn()
         {
             turn++;
@@ -85,13 +157,13 @@ namespace Jogo_Xadrez.Entities.Chess
             PlacePieces(Color.White);
             PlacePieces(Color.Black);
         }
-        
+
         public HashSet<Piece> CapturedPieces(Color color)
         {
             HashSet<Piece> aux = new HashSet<Piece>();
-            foreach(Piece x in captured)
+            foreach (Piece x in captured)
             {
-                if(x.color == color)
+                if (x.color == color)
                 {
                     aux.Add(x);
                 }
@@ -124,7 +196,7 @@ namespace Jogo_Xadrez.Entities.Chess
 
         private void PlacePieces(Color piecesColor)
         {
-            if(piecesColor == Color.Black)
+            if (piecesColor == Color.Black)
             {
                 PlacePiece('a', 8, new Tower(piecesColor, board));
                 PlacePiece('b', 8, new Horse(piecesColor, board));
@@ -134,7 +206,7 @@ namespace Jogo_Xadrez.Entities.Chess
                 PlacePiece('f', 8, new Bishop(piecesColor, board));
                 PlacePiece('g', 8, new Horse(piecesColor, board));
                 PlacePiece('h', 8, new Tower(piecesColor, board));
-                
+
                 for (int j = 0; j < board.columns; j++)
                     PlacePiece((char)('a' + j), 7, new Pawn(piecesColor, board));
             }

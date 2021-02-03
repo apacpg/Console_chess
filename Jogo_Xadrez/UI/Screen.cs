@@ -14,6 +14,11 @@ namespace Jogo_Xadrez.UI
             DisplayBoard(match.board);
             Console.WriteLine();
             DisplayCapturedPieces(match);
+            if (match.check)
+            {
+                Console.WriteLine();
+                Console.WriteLine("You are in check!");
+            }
         }
 
         public static void PrintChessMacth(ChessMatch match, bool[,] possiblePositions)
@@ -24,6 +29,11 @@ namespace Jogo_Xadrez.UI
             DisplayBoard(match.board, possiblePositions);
             Console.WriteLine();
             DisplayCapturedPieces(match);
+            if (match.check)
+            {
+                Console.WriteLine();
+                Console.WriteLine("You are in check!");
+            }
         }
 
         public static void DisplayBoard(GameBoard board)

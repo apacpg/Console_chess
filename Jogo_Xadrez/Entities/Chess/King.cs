@@ -35,9 +35,9 @@ namespace Jogo_Xadrez.Entities.Chess
             left = this.position.Column - 1;
             right = this.position.Column + 1;
 
-            for (int i = top; i <= botton  + 1; i++)
+            for (int i = top; i < botton  + 1; i++)
             {
-                for(int j = left; j <= right; j++)
+                for(int j = left; j < right; j++)
                 {
                     Position pos = new Position(i, j);
                     if (board.ValidPosition(pos) && CanMove(pos))

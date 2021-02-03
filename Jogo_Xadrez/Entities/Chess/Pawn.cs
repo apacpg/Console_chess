@@ -12,6 +12,26 @@ namespace Jogo_Xadrez.Entities.Chess
 
             Position pos = new Position(this.position.Line, this.position.Column);
 
+            if(this.movNumber == 0)
+            {
+                if(this.color == Color.Black)
+                {
+                    pos.SetValues(this.position.Line + 2, this.position.Column);
+                    if (board.ValidPosition(pos) && CanMove(pos))
+                    {
+                        movements[pos.Line, pos.Column] = true;
+                    }
+                }
+                else
+                {
+                    pos.SetValues(this.position.Line - 2, this.position.Column);
+                    if (board.ValidPosition(pos) && CanMove(pos))
+                    {
+                        movements[pos.Line, pos.Column] = true;
+                    }
+                }
+            }
+
             VerifyVerticalMovement(ref movements);
             VerifyDiagonalMove(ref movements);
 

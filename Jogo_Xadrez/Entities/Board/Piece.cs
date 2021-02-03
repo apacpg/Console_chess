@@ -25,6 +25,11 @@
             this.movNumber++;
         }
 
+        public void DecreaseMoveNumber()
+        {
+            movNumber--;
+        }
+
         public abstract bool[,] PossibleMovements();
 
         public bool HasAvailableMovement()
