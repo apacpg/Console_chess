@@ -29,9 +29,14 @@ namespace Jogo_Xadrez.Entities.Chess
                     Piece capturedPiece = board.RemovePiece(destination);
                     board.PlacePiece(piece, destination);
                     piece.IncreaseMoveNumber();
-                    NextTurn();
                 }
             }
+        }
+
+        public void ExcecutePlay(Position origin, Position destination)
+        {
+            ExcecuteMovement(origin, destination);
+            NextTurn();
         }
 
         private bool CanMove(Piece piece , Position destination)
@@ -42,10 +47,25 @@ namespace Jogo_Xadrez.Entities.Chess
             return false;
         }
 
+        public void ValidOriginPosition(Position pos)
+        {
+            if (board.GetPiece(pos) == null)
+                throw new BoardException("There is no piece at the selected position.");
+            if (board.GetPiece(pos).color != currentPlayer)
+                throw new BoardException("This piece doesnt belong to you.");
+            if (!board.GetPiece(pos).HasAvailableMovement())
+                throw new BoardException("This piece cannot move.");
+        }
+
+        public void ValidDestinationPosition(Position origin, Position destination)
+        {
+            if (!board.GetPiece(origin).CanMoveToPosition(destination))
+                throw new BoardException("Invalid position for the piece");
+        }
+
         private void NextTurn()
         {
             turn++;
-
 
             if (currentPlayer == Color.White)
                 currentPlayer = Color.Black;

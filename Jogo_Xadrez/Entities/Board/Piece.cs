@@ -26,5 +26,25 @@
         }
 
         public abstract bool[,] PossibleMovements();
+
+        public bool HasAvailableMovement()
+        {
+            bool[,] mat = PossibleMovements();
+            for(int i = 0; i < mat.GetLength(0); i++)
+            {
+                for(int j = 0; j < mat.GetLength(1); j++)
+                {
+                    if (mat[i, j])
+                        return true;
+                }
+            }
+
+            return false;
+        }
+
+        public bool CanMoveToPosition(Position pos)
+        {
+            return PossibleMovements()[pos.Line, pos.Column];
+        }
     }
 }

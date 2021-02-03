@@ -1,4 +1,5 @@
-﻿using Jogo_Xadrez.Entities.Chess;
+﻿using Jogo_Xadrez.Entities.Board;
+using Jogo_Xadrez.Entities.Chess;
 using Jogo_Xadrez.UI;
 using System;
 
@@ -14,33 +15,48 @@ namespace Jogo_Xadrez
 
                 while (!chessMatch.Finished)
                 {
-                    Screen.DisplayChessMatchInfo(chessMatch);
-                    Screen.DisplayBoard(chessMatch.board);
+                    try
+                    {
+                        Console.Clear();
+                        
+                        Screen.DisplayChessMatchInfo(chessMatch);
+                        Screen.DisplayBoard(chessMatch.board);
 
-                    Console.WriteLine();
+                        Console.WriteLine();
 
-                    Console.Write("Which piece to move: ");
-                    ChessPosition origin = Screen.ReadChessPosition();
+                        Console.Write("Which piece to move: ");
+                        ChessPosition origin = Screen.ReadChessPosition();
 
-                    bool[,] possiblePositions = chessMatch.board.GetPiece(origin.ToPosition().Line, origin.ToPosition().Column).PossibleMovements();
+                        chessMatch.ValidOriginPosition(origin.ToPosition());
+
+                        bool[,] possiblePositions = chessMatch.board.GetPiece(origin.ToPosition().Line, origin.ToPosition().Column).PossibleMovements();
                     
-                    Console.Clear();
-                    Screen.DisplayChessMatchInfo(chessMatch);
-                    Screen.DisplayBoard(chessMatch.board, possiblePositions);
+                        Console.Clear();
+                        Screen.DisplayChessMatchInfo(chessMatch);
+                        Screen.DisplayBoard(chessMatch.board, possiblePositions);
 
-                    Console.WriteLine();
+                        Console.WriteLine();
 
-                    Console.Write("To which position: ");
-                    ChessPosition destination = Screen.ReadChessPosition();
+                        Console.Write("To which position: ");
+                        ChessPosition destination = Screen.ReadChessPosition();
 
-                    chessMatch.ExcecuteMovement(origin.ToPosition(), destination.ToPosition());
+                        chessMatch.ValidDestinationPosition(origin.ToPosition(), destination.ToPosition());
 
-                    Console.Clear();
+                        chessMatch.ExcecutePlay(origin.ToPosition(), destination.ToPosition());
+
+                    }
+                    catch (BoardException e)
+                    {
+                        Console.WriteLine(e.Message);
+                        Console.Write("Press ENTER to continue");
+                        Console.ReadLine();
+                    }
+
                 }
             }
-            catch
+            catch (BoardException e)
             {
-
+                Console.WriteLine(e.Message);
             }
         }
     }
