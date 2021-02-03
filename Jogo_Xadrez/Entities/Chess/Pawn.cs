@@ -17,7 +17,8 @@ namespace Jogo_Xadrez.Entities.Chess
                 if(this.color == Color.Black)
                 {
                     pos.SetValues(this.position.Line + 2, this.position.Column);
-                    if (board.ValidPosition(pos) && CanMove(pos))
+                    Piece piece = board.GetPiece(this.position.Line + 1, this.position.Column);
+                    if (board.ValidPosition(pos) && CanMove(pos) && piece == null)
                     {
                         movements[pos.Line, pos.Column] = true;
                     }
@@ -25,7 +26,8 @@ namespace Jogo_Xadrez.Entities.Chess
                 else
                 {
                     pos.SetValues(this.position.Line - 2, this.position.Column);
-                    if (board.ValidPosition(pos) && CanMove(pos))
+                    Piece piece = board.GetPiece(this.position.Line - 1, this.position.Column);
+                    if (board.ValidPosition(pos) && CanMove(pos) && piece == null)
                     {
                         movements[pos.Line, pos.Column] = true;
                     }
