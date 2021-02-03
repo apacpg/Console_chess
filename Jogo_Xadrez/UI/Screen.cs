@@ -6,6 +6,26 @@ namespace Jogo_Xadrez.UI
 {
     public class Screen
     {
+        public static void PrintChessMacth(ChessMatch match)
+        {
+            Console.Clear();
+
+            DisplayChessMatchInfo(match);
+            DisplayBoard(match.board);
+            Console.WriteLine();
+            DisplayCapturedPieces(match);
+        }
+
+        public static void PrintChessMacth(ChessMatch match, bool[,] possiblePositions)
+        {
+            Console.Clear();
+
+            DisplayChessMatchInfo(match);
+            DisplayBoard(match.board, possiblePositions);
+            Console.WriteLine();
+            DisplayCapturedPieces(match);
+        }
+
         public static void DisplayBoard(GameBoard board)
         {
             for(int i = 0; i < board.lines; i++)
@@ -84,6 +104,30 @@ namespace Jogo_Xadrez.UI
             Console.ForegroundColor = ConsoleColor.Green;
             Console.Write("Black");
             Console.ForegroundColor = aux;
+
+            Console.WriteLine();
+        }
+
+        public static void DisplayCapturedPieces(ChessMatch match)
+        {
+            var blackPieces = match.CapturedPieces(Color.Black);
+            var withePieces = match.CapturedPieces(Color.White);
+
+            ConsoleColor basic = Console.ForegroundColor;
+            
+
+            Console.Write("White: ");
+            foreach (Piece piece in withePieces)
+                Console.Write(piece.ToString());
+            Console.WriteLine();
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("Black: ");
+            foreach (Piece piece in blackPieces)
+                Console.Write(piece.ToString());
+            Console.WriteLine();
+
+            Console.ForegroundColor = basic;
 
             Console.WriteLine();
         }

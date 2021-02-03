@@ -18,11 +18,8 @@ namespace Jogo_Xadrez
                     try
                     {
                         Console.Clear();
-                        
-                        Screen.DisplayChessMatchInfo(chessMatch);
-                        Screen.DisplayBoard(chessMatch.board);
 
-                        Console.WriteLine();
+                        Screen.PrintChessMacth(chessMatch);
 
                         Console.Write("Which piece to move: ");
                         ChessPosition origin = Screen.ReadChessPosition();
@@ -30,12 +27,8 @@ namespace Jogo_Xadrez
                         chessMatch.ValidOriginPosition(origin.ToPosition());
 
                         bool[,] possiblePositions = chessMatch.board.GetPiece(origin.ToPosition().Line, origin.ToPosition().Column).PossibleMovements();
-                    
-                        Console.Clear();
-                        Screen.DisplayChessMatchInfo(chessMatch);
-                        Screen.DisplayBoard(chessMatch.board, possiblePositions);
 
-                        Console.WriteLine();
+                        Screen.PrintChessMacth(chessMatch, possiblePositions);
 
                         Console.Write("To which position: ");
                         ChessPosition destination = Screen.ReadChessPosition();
