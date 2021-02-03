@@ -19,7 +19,7 @@ namespace Jogo_Xadrez
                     {
                         Console.Clear();
 
-                        Screen.PrintChessMacth(chessMatch);
+                        Screen.PrintChessMatch(chessMatch);
 
                         Console.Write("Which piece to move: ");
                         ChessPosition origin = Screen.ReadChessPosition();
@@ -28,7 +28,7 @@ namespace Jogo_Xadrez
 
                         bool[,] possiblePositions = chessMatch.board.GetPiece(origin.ToPosition().Line, origin.ToPosition().Column).PossibleMovements();
 
-                        Screen.PrintChessMacth(chessMatch, possiblePositions);
+                        Screen.PrintChessMatch(chessMatch, possiblePositions);
 
                         Console.Write("To which position: ");
                         ChessPosition destination = Screen.ReadChessPosition();
@@ -36,6 +36,11 @@ namespace Jogo_Xadrez
                         chessMatch.ValidDestinationPosition(origin.ToPosition(), destination.ToPosition());
 
                         chessMatch.ExcecutePlay(origin.ToPosition(), destination.ToPosition());
+
+                        if (chessMatch.Finished)
+                        {
+                            Screen.PrintChessMatch(chessMatch);
+                        }
 
                     }
                     catch (BoardException e)

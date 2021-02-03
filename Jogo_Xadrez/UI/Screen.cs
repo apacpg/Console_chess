@@ -6,7 +6,7 @@ namespace Jogo_Xadrez.UI
 {
     public class Screen
     {
-        public static void PrintChessMacth(ChessMatch match)
+        public static void PrintChessMatch(ChessMatch match)
         {
             Console.Clear();
 
@@ -14,14 +14,24 @@ namespace Jogo_Xadrez.UI
             DisplayBoard(match.board);
             Console.WriteLine();
             DisplayCapturedPieces(match);
-            if (match.check)
+            if (match.check && !match.Finished)
             {
                 Console.WriteLine();
                 Console.WriteLine("You are in check!");
             }
+            if (match.Finished)
+            {
+                Console.Clear();
+                DisplayChessMatchInfo(match);
+                DisplayBoard(match.board);
+                Console.WriteLine();
+                DisplayCapturedPieces(match);
+                Console.WriteLine("CHECKMATE!");
+                Console.WriteLine("WINNER: {0}", match.currentPlayer.ToString().ToUpper());
+            }
         }
 
-        public static void PrintChessMacth(ChessMatch match, bool[,] possiblePositions)
+        public static void PrintChessMatch(ChessMatch match, bool[,] possiblePositions)
         {
             Console.Clear();
 

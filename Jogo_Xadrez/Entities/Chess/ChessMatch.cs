@@ -75,7 +75,14 @@ namespace Jogo_Xadrez.Entities.Chess
                 check = false;
             }
 
-            NextTurn();
+            if (check)
+            {
+                this.Finished = CheckMate(adversaryColor(currentPlayer));
+            }
+            else
+            {
+                NextTurn();
+            }
         }
 
         private bool CanMove(Piece piece, Position destination)
@@ -142,6 +149,39 @@ namespace Jogo_Xadrez.Entities.Chess
             return false;
         }
 
+        public bool CheckMate(Color color)
+        {
+            if (InCheck(color))
+            {
+                HashSet<Piece> piecesInGame = PiecesInGame(color);
+                foreach(Piece p in piecesInGame)
+                {
+                    Position origin = new Position(p.position.Line, p.position.Column);
+                    bool[,] movements = p.PossibleMovements();
+                    for(int i = 0; i < this.board.lines; i++)
+                    {
+                        for(int j = 0; j < this.board.columns; j++)
+                        {
+                            if(movements[i, j])
+                            {
+                                Position destination = new Position(i, j);
+                                Piece removed = ExcecuteMovement(origin, destination);
+                                bool inCheck = InCheck(color);
+                                UndoMovement(origin, destination, removed);
+
+                                if (!inCheck)
+                                    return false;
+                            }
+                        }
+                    }
+                }
+
+                return true;
+            }
+
+            return false;
+        }
+
         private void NextTurn()
         {
             turn++;
@@ -154,8 +194,8 @@ namespace Jogo_Xadrez.Entities.Chess
 
         private void SetUpBoard()
         {
-            PlacePieces(Color.White);
-            PlacePieces(Color.Black);
+            NewGame();
+            //CheckmateScenario();
         }
 
         public HashSet<Piece> CapturedPieces(Color color)
@@ -193,7 +233,6 @@ namespace Jogo_Xadrez.Entities.Chess
             board.PlacePiece(piece, new ChessPosition(line, column).ToPosition());
             pieces.Add(piece);
         }
-
         private void PlacePieces(Color piecesColor)
         {
             if (piecesColor == Color.Black)
@@ -224,6 +263,21 @@ namespace Jogo_Xadrez.Entities.Chess
                 for (int j = 0; j < board.columns; j++)
                     PlacePiece((char)('a' + j), 2, new Pawn(piecesColor, board));
             }
+        }
+
+        private void CheckmateScenario()
+        {
+            PlacePiece('a', 8, new King(Color.Black, board));
+            PlacePiece('b', 8, new Tower(Color.Black, board));
+            PlacePiece('h', 7, new Tower(Color.White, board));
+            PlacePiece('c', 1, new Tower(Color.White, board));
+            PlacePiece('d', 1, new King(Color.White, board));
+        }
+
+        private void NewGame()
+        {
+            PlacePieces(Color.White);
+            PlacePieces(Color.Black);
         }
     }
 }
